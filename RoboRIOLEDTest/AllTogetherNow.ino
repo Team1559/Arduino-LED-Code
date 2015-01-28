@@ -1,5 +1,4 @@
 #include <RoboRIO.h>
-
 RoboRIO roboRIO(12,8,7);
 int i = 0;
 int switchCaseVar = 1;
@@ -8,6 +7,9 @@ void setup() {
   pinMode(9,OUTPUT);
   pinMode(10,OUTPUT);
   pinMode(11,OUTPUT);
+  pinMode(3,OUTPUT);
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
 }
 
 void loop() {
@@ -143,9 +145,56 @@ void loop() {
     }
     break;
   case 5:
+    //Random Garbage
     setRGB1((int)random(0,155),(int)random(0,155),(int)random(0,155));
     setRGB2((int)random(0,155),(int)random(0,155),(int)random(0,155));
     delay(60);
+    break;
+  case 6://Fades Thru White To Blue and Gold
+    switch(switchCaseVar){
+    case 1:
+      setRGBBoth(0,42,237);
+      if (i>=255){
+        switchCaseVar=2;
+        i=0;
+      }
+      break;
+    case 2:
+      setRGBBoth(i,(int)(42+((213*i)/255)),(int)(237+((18*i)/255)));
+      if (i>=255){
+        switchCaseVar=3;
+        i=0;
+      }
+      break;
+    case 3:
+      setRGBBoth((255-(18*i)/255),255-((i*61)/255),255-i);
+      if(i>255){
+        switchCaseVar=4;
+        i=0;
+      }
+      break;
+    case 4:
+      setRGBBoth(237,194,0);
+      if (i>=255){
+        switchCaseVar=5;
+        i=0;
+      }
+      break;
+      case 5:
+      setRGBBoth(237+((18*i)/255),194+((61*i)/255),i);
+      if(i>=255){
+        switchCaseVar=6;
+        i=0;
+      }
+      break;
+      case 6:
+      setRGBBoth(255-i,255-((213*i)/255),255-((18*i)/255));
+      if(i>=255){
+        switchCaseVar=1;
+        i=0;
+      }
+      break;
+    }
     break;
   }
   i++;
@@ -153,30 +202,12 @@ void loop() {
 }
 
 void setRGB1(int R,int G,int B){
-  if (R >=255){
-    R = 255;
-  }
-  if (G >=255){
-    G = 255;
-  }
-  if (B >=255){
-    B = 255;
-  }
   analogWrite(9,R);
   analogWrite(10,B);
   analogWrite(11,G);
 }
 
 void setRGB2(int R,int G,int B){
-  if (R >=255){
-    R = 255;
-  }
-  if (G >=255){
-    G = 255;
-  }
-  if (B >=255){
-    B = 255;
-  }
   analogWrite(5,R);
   analogWrite(3,B);
   analogWrite(6,G);
@@ -185,6 +216,9 @@ void setRGBBoth(int R,int G,int B){
   setRGB1(R,G,B);
   setRGB2(R,G,B);
 }
+
+
+
 
 
 
