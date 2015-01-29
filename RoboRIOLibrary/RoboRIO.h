@@ -6,12 +6,13 @@ class RoboRIO
 {
 public:
 	RoboRIO(int pin1,int pin2,int pin3);
+	int commPort4;
 	int commPort3;
 	int commPort2;
 	int commPort1;
 	int read();
 private:
 	int parsedData;
-	boolean stuff[3];
+	boolean stuff[4];
 };
 #endif
